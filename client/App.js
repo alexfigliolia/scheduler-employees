@@ -14,7 +14,8 @@ export default class App extends Component {
       schedules: [],
       currentSkedgeIndex: 0,
       startDay: 8,
-      endDay: 7
+      endDay: 7,
+      length: 0
 		}
 	}
 
@@ -36,7 +37,8 @@ export default class App extends Component {
     console.log(nextProps);
     this.setState({
       schedules: nextProps.schedules,
-      currentSkedgeIndex: (nextProps.schedules.length !== this.props.schedules) ? nextProps.schedules.length - 1 : this.props.schedules.length - 1
+      currentSkedgeIndex: (nextProps.schedules.length !== this.props.schedules) ? nextProps.schedules.length - 1 : this.props.schedules.length - 1,
+      length: nextProps.schedules.length
     });
   }
 
@@ -101,6 +103,19 @@ export default class App extends Component {
         });
       }
     });
+  }
+
+  navigate(e){
+    var dir = e.target.dataset.dir;
+    if(dir === "prev") {
+      this.setState({
+        currentSkedgeIndex: (this.state.currentSkedgeIndex - 1 <= 0) ? 0 : this.state.currentSkedgeIndex - 1
+      });
+    } else {
+      this.setState({
+        currentSkedgeIndex: (this.state.currentSkedgeIndex + 1 >= this.state.length) ? this.state.length - 1 : this.state.currentSkedgeIndex + 1
+      });
+    }
   }
 
 	render(){

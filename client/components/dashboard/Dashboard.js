@@ -52,9 +52,13 @@ export default class Dashboard extends Component{
 				<div>
 					<div className="dates">
 						<div>
-							<button></button>
-							{(!forDate) ? "Ass!!!" : "Monday " + this.months[forDate.getMonth()] + " " + forDate.getDate() + " - " + this.months[new Date(forDate.getTime() + 6 * 24 * 60 * 60 * 1000).getMonth()] + " " + new Date(forDate.getTime() + 6 * 24 * 60 * 60 * 1000).getDate()}
-							<button></button>
+							<button 
+								onClick={this.props.navigate}
+								data-dir="prev"></button>
+							{(!forDate) ? "Date unavailable" : "Monday " + this.months[forDate.getMonth()] + " " + forDate.getDate() + " - " + this.months[new Date(forDate.getTime() + 6 * 24 * 60 * 60 * 1000).getMonth()] + " " + new Date(forDate.getTime() + 6 * 24 * 60 * 60 * 1000).getDate()}
+							<button 
+								onClick={this.props.navigate}
+								data-dir="next"></button>
 						</div>
 					</div>
 					<div className="individual-view">
