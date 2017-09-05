@@ -45,6 +45,7 @@ export default class Login extends Component{
 			}
 		} else {
 			if(this.refs.name.value !== "" && 
+				 this.refs.managerName.value !== "" && 
 				 this.refs.email.value !== "" && 
 				 ereg.test(this.refs.email.value) && 
 				 this.refs.password !== "") 
@@ -52,7 +53,8 @@ export default class Login extends Component{
 				name = this.refs.name.value;
 				email = this.refs.email.value;
 				password = this.refs.password.value;
-				this.props.signUp(name, email, password);
+				var managerName = this.refs.managerName.value;
+				this.props.signUp(name, email, password, managerName);
 				this.setState({
 					loginErrors: "Error:"
 				});
@@ -90,6 +92,18 @@ export default class Login extends Component{
 									id="name"
 									ref="name" />
 								<label htmlFor="name">Full Name</label>
+							</div>
+						}
+						{
+							this.state.newUser &&
+							<div>
+								<input 
+									onBlur={this.blur.bind(this)}
+									onFocus={this.focus.bind(this)} 
+									type="text" 
+									id="managerName"
+									ref="managerName" />
+								<label htmlFor="managerName">Manager Name</label>
 							</div>
 						}
 						<div>

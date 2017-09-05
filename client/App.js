@@ -8,7 +8,7 @@ export default class App extends Component {
 		super(props);
 		this.state = {
 			height: null,
-			loggedIn: true,
+			loggedIn: false,
 			loginClasses: "login",
 			loginErrors: "",
       schedules: [],
@@ -31,6 +31,11 @@ export default class App extends Component {
 				height: h
 			});
 		});
+    if(this.props.id !== null && this.props.id !== undefined) {
+      this.setState({
+        loggedIn: true
+      });
+    }
 	}
 
   componentWillReceiveProps(nextProps) {
@@ -70,8 +75,8 @@ export default class App extends Component {
     });
   }
 
-  signUp(n, e, p) {
-    Accounts.createUser({name: n, email: e.toLowerCase(), password: p}, (err) => {
+  signUp(n, e, p, m) {
+    Accounts.createUser({name: n, email: e.toLowerCase(), password: p, managerName: m}, (err) => {
       this.setState({
         loginClasses: "login login-loading"
       });
@@ -88,6 +93,7 @@ export default class App extends Component {
             });
           } else {
             // console.log('logging in new user');
+            Meteor.call('group.update', m, e);
             setTimeout(function(){
               this.setState({
                 loginErrors: "",
