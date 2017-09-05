@@ -6,8 +6,6 @@
 	width: 100%;
 	@include center;
 	z-index: 9876;
-	background: url('blur.jpg') no-repeat center;
-	background-size: cover;
 	transition-duration: 0.4s;
 	&>div {
 		@include center;

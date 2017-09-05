@@ -22,7 +22,7 @@ export default class App extends Component {
 	componentDidMount(){
 		var self = this,
 				h = window.innerHeight;
-		this.setState({
+		self.setState({
 			height: h
 		});
 		window.addEventListener('resize', function(){
@@ -31,11 +31,6 @@ export default class App extends Component {
 				height: h
 			});
 		});
-    if(this.props.id !== null && this.props.id !== undefined) {
-      this.setState({
-        loggedIn: true
-      });
-    }
 	}
 
   componentWillReceiveProps(nextProps) {
@@ -45,9 +40,13 @@ export default class App extends Component {
       currentSkedgeIndex: (nextProps.schedules.length !== this.props.schedules) ? nextProps.schedules.length - 1 : this.props.schedules.length - 1,
       length: nextProps.schedules.length
     });
-    if(nextProps.user === null) {
+    if(nextProps.user === null || nextProps.user === undefined) {
       this.setState({
         loggedIn: false
+      });
+    } else {
+      this.setState({
+        loggedIn: true
       });
     }
   }

@@ -11,25 +11,9 @@ export default class Dashboard extends Component{
 		this.months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 	}
 
-	componentDidMount(){
-		this.createHours(this.props.startDay, this.props.endDay);
-		if(this.props.schedule !== undefined) {
-			setTimeout(function(){
-				this.setState({
-					shiftClasses: "shift shift-show"
-				});
-			}.bind(this), 500);
-		}
-	}
-
 	componentWillReceiveProps(nextProps){
-		this.createHours(this.props.startDay, this.props.endDay);
-		if(nextProps.schedule !== undefined) {
-			setTimeout(function(){
-				this.setState({
-					shiftClasses: "shift shift-show"
-				});
-			}.bind(this), 500);
+		if(nextProps.schedule !== this.props.schedule){
+			this.createHours(this.props.startDay, this.props.endDay);
 		}
 	}
 
@@ -49,7 +33,8 @@ export default class Dashboard extends Component{
 			hours.push(i);
 		}
 		this.setState({
-			hours: hours
+			hours: hours,
+			shiftClasses: "shift shift-show"
 		});
 	}
 
@@ -101,9 +86,8 @@ export default class Dashboard extends Component{
 																		style={{
 																		  left: this.calcDif(this.props.startDay, parseInt(shift.times.on.substring( 0, shift.times.on.length-2 ))) * (100 / this.state.hours.length) + "%",
 																			width: this.calcDif(parseInt(shift.times.on.substring( 0, shift.times.on.length-2 )), parseInt(shift.times.off.substring( 0, shift.times.on.length-2 ))) * (100 / this.state.hours.length) + "%",
-																			borderRadius: "100px",
 																			background: shift.color,
-																			transition: "transform 0.3s" + (j/10) + "s, box-shadow 0.3s, " + 0.3 + (j/10) + "s"
+																			transition: "transform 0.3s " + (0.5 + i/10) + "s, boxShadow 0.3s " + (0.8 + i/10) + "s"
 																		}}>
 																			<p>{shift.times.on + " - " + shift.times.off}</p>
 																	</div>
