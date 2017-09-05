@@ -15,7 +15,8 @@ export default class App extends Component {
       currentSkedgeIndex: 0,
       startDay: 8,
       endDay: 7,
-      length: 0
+      length: 0,
+      view: "individual"
 		}
 	}
 
@@ -34,21 +35,30 @@ export default class App extends Component {
 	}
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
-    this.setState({
-      schedules: nextProps.schedules,
-      currentSkedgeIndex: (nextProps.schedules.length !== this.props.schedules) ? nextProps.schedules.length - 1 : this.props.schedules.length - 1,
-      length: nextProps.schedules.length
-    });
-    if(nextProps.user === null || nextProps.user === undefined) {
-      this.setState({
-        loggedIn: false
-      });
-    } else {
-      this.setState({
-        loggedIn: true
-      });
+    if(this.props !== nextProps){
+      console.log(nextProps);
+      if(nextProps.user === null || nextProps.user === undefined) {
+        this.setState({
+          loggedIn: false
+        });
+      } else {
+        this.consumeDB(nextProps);
+      }
     }
+  }
+
+  consumeDB(path){
+    this.setState({
+      schedules: path.schedules,
+      currentSkedgeIndex: (path.schedules.length !== this.state.schedules) ? path.schedules.length - 1 : this.state.schedules.length - 1,
+      length: path.schedules.length,
+      user: path.user
+    });
+    setTimeout(function(){
+      this.setState({
+        loggedIn: true,
+      });
+    }.bind(this), 1800);
   }
 
 	login(e, p) {
@@ -114,6 +124,17 @@ export default class App extends Component {
     }
   }
 
+  setView(e){
+    var view = (e.target.tagName === "BUTTON") ? 
+                e.target.dataset.view : 
+                (e.target.tagName === "path") ? 
+                e.target.parentNode.parentNode.dataset.view : 
+                e.target.parentNode.dataset.view;
+    this.setState({
+      view: view
+    });
+  }
+
 	render(){
 		return(
 			<div className="App" style={{height: this.state.height}}>
@@ -129,7 +150,9 @@ export default class App extends Component {
 
         {
         	this.state.loggedIn &&
-        	<Header />
+        	<Header 
+            setView={this.setView.bind(this)}
+            view={this.state.view} />
         }
 
         {
@@ -138,7 +161,8 @@ export default class App extends Component {
             schedule={this.state.schedules[this.state.currentSkedgeIndex]}
             currentSkedge={this.state.currentSkedgeIndex}
             startDay={this.state.startDay}
-            endDay={this.state.endDay} />
+            endDay={this.state.endDay}
+            view={this.state.view} />
         }
 
 			</div>

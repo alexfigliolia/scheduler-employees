@@ -12,6 +12,7 @@
 		flex-direction: column;
 		height: 100%;
 		width: 100%;
+		position: relative;
 		&>.dates{
 			@include center;
 			width: 100%;
@@ -50,6 +51,12 @@
 			width: 100%;
 			height: calc(100% - 50px);
 			@include center;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			transform: translateX(100%);
+			transition-duration: 0.4s;
+			transition-timing-function: ease;
 			&>div {
 				@include center;
 				height: 100%;
@@ -132,5 +139,95 @@
 				}
 			}
 		}
+		&>.individual-view-show {
+			transform: translateX(0%);
+		}
+		&>.team-view {
+			width: 100%;
+			max-width: 100%;
+			height: calc(100% - 50px);
+			@include center;
+			transform: translateX(-100%);
+			transition-duration: 0.4s;
+			transition-timing-function: ease;
+			&>div {
+				@include center;
+				height: 100%;
+				width: 100%;
+				max-width: 100%;
+				flex-direction: row;
+				justify-content: flex-start;
+				&>.team-days{
+					height: 100%;
+					width: 100%;
+					max-width: 100%;
+					@include center;
+					outline: none;
+					& .flickity-viewport,
+					& .flickity-slider {
+						height: 100%;
+						width: 100%;
+					}
+					& .team-day{
+						height: 100%;
+						width: 100%;
+						max-width: 100%;
+						@include center;
+						flex-direction: column;
+						justify-content: flex-start;
+						&>h2 {
+							margin: 0;
+							color: #fff;
+							font-size: 1em;
+							text-transform: uppercase;
+							font-weight: 900;
+						}
+						&>.bar-container {
+							height: 100%;
+							width: 100%;
+							position: relative;
+							overflow: hidden;
+							@media #{$mq-957} {
+								width: 70%;
+							}
+							&>.team-shift {
+								color: #fff;
+								border-radius: 100px;
+								max-width: 100px;
+								position: absolute;
+								@include center;
+								justify-content: space-between;
+								flex-direction: column;
+								overflow: hidden;
+								@include headerShadow;
+								&>p {
+									transform: rotate(90deg);
+									font-size: 0.9em;
+								}
+								&>p:first-of-type {
+									margin-top: 20px;
+									@media #{$mq-670}{
+										margin-top: 40px;	
+									}
+								}
+								&>p:last-of-type {
+									margin-bottom: 20px;
+									@media #{$mq-670}{
+										margin-bottom: 40px;	
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		&>.team-view-show{
+			transform: translateX(0%);
+		}
 	}
+}
+
+.flickity-page-dots {
+	bottom: -200px;
 }

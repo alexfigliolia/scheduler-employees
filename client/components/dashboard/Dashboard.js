@@ -1,19 +1,39 @@
 import React, { Component} from 'react';
+import Flickity from 'flickity';
 
 export default class Dashboard extends Component{
 	constructor(props){
 		super(props);
 		this.state = {
 			hours: [],
-			shiftClasses: "shift"
+			shiftClasses: "shift",
+			schedule: []
 		}
 		this.week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 		this.months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 	}
 
+	componentDidMount(){
+		const carousel = document.getElementById('carousel');
+    const options = {
+        cellSelector: '.team-day',
+        contain: true,
+        initialIndex: 0,
+        setGallerySize: false,
+        cellAlign: "center"
+    }
+    this.flkty = new Flickity(carousel, options);
+    this.flkty.on('cellSelect', this.updateSelected);
+    console.log(this.flkty);
+	}
+
 	componentWillReceiveProps(nextProps){
-		if(nextProps.schedule !== this.props.schedule){
+		if(nextProps.schedule !== this.state.schedule){
 			this.createHours(this.props.startDay, this.props.endDay);
+			this.setState({
+				schedule: nextProps.schedule,
+				shiftClasses: "shift shift-show"
+			});
 		}
 	}
 
@@ -33,13 +53,12 @@ export default class Dashboard extends Component{
 			hours.push(i);
 		}
 		this.setState({
-			hours: hours,
-			shiftClasses: "shift shift-show"
+			hours: hours
 		});
 	}
 
 	render(){
-		const forDate = (this.props.schedule !== undefined) ? new Date(this.props.schedule.schedule[0].for) : false;
+		const forDate = (this.state.schedule.schedule !== undefined) ? new Date(this.state.schedule.schedule[0].for) : false;
 		const mondays = this.state.mondays;
 		return(
 			<div className="dashboard">
@@ -55,7 +74,7 @@ export default class Dashboard extends Component{
 								data-dir="next"></button>
 						</div>
 					</div>
-					<div className="individual-view">
+					<div className={(this.props.view === "individual") ? "individual-view individual-view-show" : "individual-view"}>
 						<div>
 							<div className="weekdays">
 								{
@@ -71,8 +90,8 @@ export default class Dashboard extends Component{
 							</div>
 							<div className='individual-shifts'>
 								{
-									this.props.schedule !== undefined &&
-									this.props.schedule.schedule.map((weekday, i) => {
+									this.state.schedule.schedule !== undefined &&
+									this.state.schedule.schedule.map((weekday, i) => {
 										if(i > 0) {
 											return(
 												<div key={i}>
@@ -95,6 +114,53 @@ export default class Dashboard extends Component{
 															}
 														})
 													}
+												</div>
+											);
+										}
+									})
+								}
+							</div>
+						</div>
+					</div>
+					<div className={(this.props.view === "team") ? "team-view team-view-show" : "team-view"}>
+						<div>
+							<div 
+								id="carousel" 
+								className="team-days">
+								{
+									this.props.schedule.schedule !== undefined &&
+									this.props.schedule.schedule.map((day, i) => {
+										if(i > 0) {
+											console.log(day);
+											return(
+												<div
+													className="team-day" 
+													key={i}
+													data-sm={this.week[i - 1].substring(0, 3)}
+													data-lg={this.week[i - 1]}>
+													<h2>{this.week[i - 1]}</h2>
+													<div className="bar-container">
+														{
+															day.map((shift, j) => {
+																return (
+																	<div 
+																		className="team-shift"
+																		key={j}
+																		style={{
+																			background: shift.color,
+																			top: this.calcDif(this.props.startDay, parseInt(shift.times.on.substring( 0, shift.times.on.length-2 ))) * (100 / this.state.hours.length) + "%",
+																			height: this.calcDif(parseInt(shift.times.on.substring( 0, shift.times.on.length-2 )), parseInt(shift.times.off.substring( 0, shift.times.on.length-2 ))) * (100 / this.state.hours.length) + "%",
+																			width: 80 / day.length + "%",
+																			left: ((80 / day.length) * j) + 10 + "%"
+																		}}>
+																		<p>{shift.times.on}</p>
+																		<p>{shift.employee}</p>
+																		<p>{shift.times.off}</p>
+																	</div>
+																);
+															})
+														}
+													</div>
 												</div>
 											);
 										}
