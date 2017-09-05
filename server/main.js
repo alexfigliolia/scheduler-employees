@@ -10,6 +10,7 @@ Accounts.onCreateUser((options, user) => {
   user.name = options.name;
   user.roll = "employee";
   user.managerPassword = options.managerName;
+  user.group = "";
 
   return user;
 });
@@ -25,7 +26,8 @@ Meteor.publish('userData', function() {
        fields: {
           "name" : 1,
           "roll" : 1,
-          "_id": 1
+          "_id": 1,
+          "group": 1
        }
      });
   } else {
@@ -50,22 +52,21 @@ Meteor.publish('group', function(){
   }
 });
 
-Meteor.publish('schedules', function(){
-	var currentUser;
-	currentUser = this.userId;
-  var group = Group.find({employees: currentUser}).fetch();
-  if(group.length === 0){
+Meteor.publish('schedules', function() {
+  var currentUser;
+  currentUser = this.userId;
+  var user = Meteor.users.find(currentUser).fetch();
+  if(user.length === 0) {
     return this.ready();
   } else {
-    var groupId = group[0]._id;
-    var schedules = Schedules.find({group: groupId}, {
-      fields: {
-        schedule: 1,
-        owner: 1
-      }
-    });
+    var schedules = [ Schedules.find({group: user[0].group}, {
+       fields: {
+          schedule: 1,
+          owner: 1
+       }})
+    ];
     return schedules;
-  }
+  } 
 });
 
 // Meteor.publish('employees', function(){
@@ -94,6 +95,19 @@ Meteor.methods({
       {name: name},
       {$push: {employees: Meteor.userId(), emails: email}
     });
+  },
+
+  'user.setGroup'(accountPassword, ownerName){
+    check(accountPassword, String);
+    check(ownerName, String);
+    var account = Group.find({password: accountPassword, name: ownerName}).fetch();
+    if(account.length !== 0) {
+      return Meteor.users.update(Meteor.userId(), {
+        $set: {
+          group: account[0]._id
+        }
+      });
+    }
   },
 
   sendEmail(message) {

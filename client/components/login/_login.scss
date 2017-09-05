@@ -214,6 +214,11 @@
 			opacity: 0;
 			transition-delay: 0.4s;
 		}
+		&>span:nth-of-type(6){
+			transform: translateY(-100px);
+			opacity: 0;
+			transition-delay: 0.45s;
+		}
 	}
 	&>div>h2{
 		transform: translateY(-100px);

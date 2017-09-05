@@ -45,6 +45,11 @@ export default class App extends Component {
       currentSkedgeIndex: (nextProps.schedules.length !== this.props.schedules) ? nextProps.schedules.length - 1 : this.props.schedules.length - 1,
       length: nextProps.schedules.length
     });
+    if(nextProps.user === null) {
+      this.setState({
+        loggedIn: false
+      });
+    }
   }
 
 	login(e, p) {
@@ -84,27 +89,13 @@ export default class App extends Component {
         // console.log(err.reason);
       } else {
         // console.log('creating new user');
-        Meteor.loginWithPassword(e, p, (err) => {
-          if(err) {
-            // console.log(err.reason);
-            this.setState({
-              loginErrors: err.reason,
-              loginClasses: "login"
+        Meteor.call('group.update', m, e, (error, result) => {
+          if(error){console.log(error)} else {
+            Meteor.call('user.setGroup', m, m, (error, result) => {
+              if(error){console.log(error)} else {
+                this.login(e, p);
+              }
             });
-          } else {
-            // console.log('logging in new user');
-            Meteor.call('group.update', m, e);
-            setTimeout(function(){
-              this.setState({
-                loginErrors: "",
-                loginClasses: "login login-loading login-remove"
-              });
-            }.bind(this), 500);
-            setTimeout(function(){
-              this.setState({
-                loggedIn: true
-              });
-            }.bind(this), 1800);
           }
         });
       }

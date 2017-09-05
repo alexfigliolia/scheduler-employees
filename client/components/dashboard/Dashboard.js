@@ -12,16 +12,25 @@ export default class Dashboard extends Component{
 	}
 
 	componentDidMount(){
-		setTimeout(function(){
-			this.setState({
-				shiftClasses: "shift shift-show"
-			});
-		}.bind(this), 500);
 		this.createHours(this.props.startDay, this.props.endDay);
+		if(this.props.schedule !== undefined) {
+			setTimeout(function(){
+				this.setState({
+					shiftClasses: "shift shift-show"
+				});
+			}.bind(this), 500);
+		}
 	}
 
 	componentWillReceiveProps(nextProps){
 		this.createHours(this.props.startDay, this.props.endDay);
+		if(nextProps.schedule !== undefined) {
+			setTimeout(function(){
+				this.setState({
+					shiftClasses: "shift shift-show"
+				});
+			}.bind(this), 500);
+		}
 	}
 
 	calcDif(start, end){
@@ -94,7 +103,7 @@ export default class Dashboard extends Component{
 																			width: this.calcDif(parseInt(shift.times.on.substring( 0, shift.times.on.length-2 )), parseInt(shift.times.off.substring( 0, shift.times.on.length-2 ))) * (100 / this.state.hours.length) + "%",
 																			borderRadius: "100px",
 																			background: shift.color,
-																			transitionDelay: (j/10) + "s"
+																			transition: "transform 0.3s" + (j/10) + "s, box-shadow 0.3s, " + 0.3 + (j/10) + "s"
 																		}}>
 																			<p>{shift.times.on + " - " + shift.times.off}</p>
 																	</div>
