@@ -156,7 +156,51 @@
 				width: 100%;
 				max-width: 100%;
 				flex-direction: row;
-				justify-content: flex-start;
+				justify-content: flex-end;
+				&>.clock-thing{
+					height: 27.5px;
+					width: 37.5px;
+					background: rgba(#000, 0.5) url('clock.svg') no-repeat center;
+					background-size: 22.5px 22.5px;;
+					position: fixed;
+					top: 0;
+					left: 0;
+					border-top-right-radius: 5px;
+				}
+				&>.biz-times {
+					position: fixed;
+					bottom: 0;
+					left: 0;
+					z-index: 1324423;
+					color: #fff;
+					background: rgba(#000, 0.5);
+					font-weight: 200;
+					font-size: 0.9em;
+					@include center;
+					flex-direction: column;
+					justify-content: flex-start;
+					width: 37.5px;
+					height: calc(100% - 27.5px);
+					border-bottom-right-radius: 5px;
+					&>div {
+						position: relative;
+						width: 100%;
+						&::after {
+							content: "";
+							position: absolute;
+							top: 0;
+							height: 1px;
+							width: 100%;
+							background: rgba(#fff, 0.35);
+						}
+						&>div {
+							text-align: center;
+						}
+					}
+					&>div:first-of-type::after {
+						display: none;
+					}
+				}
 				&>.team-days{
 					height: 100%;
 					width: 100%;
@@ -177,18 +221,21 @@
 						justify-content: flex-start;
 						&>h2 {
 							margin: 0;
+							margin-bottom: 10px;
 							color: #fff;
 							font-size: 1em;
 							text-transform: uppercase;
 							font-weight: 900;
 						}
 						&>.bar-container {
-							height: 100%;
-							width: 100%;
+							height: calc(100% - 10px);
+							width: calc(100% - 27.5px);
 							position: relative;
 							overflow: hidden;
+							align-self: flex-end;
 							@media #{$mq-957} {
 								width: 70%;
+								align-self: center;
 							}
 							&>.team-shift {
 								color: #fff;
@@ -228,6 +275,22 @@
 	}
 }
 
+.flickity-prev-next-button{
+	display: none;
+	@media #{$mq-957} {
+		display: initial;
+		top: calc(50% - 10px);
+		@include headerShadow;
+	}
+}
+
+.flickity-prev-next-button.previous {
+	left: 50px;
+}
+.flickity-prev-next-button.next {
+	right: 50px;
+}
+
 .flickity-page-dots {
-	bottom: -200px;
+	display: none;
 }

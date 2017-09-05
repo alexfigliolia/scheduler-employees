@@ -20,7 +20,8 @@ export default class Dashboard extends Component{
         contain: true,
         initialIndex: 0,
         setGallerySize: false,
-        cellAlign: "center"
+        cellAlign: "center",
+        pageDots: false
     }
     this.flkty = new Flickity(carousel, options);
     this.flkty.on('cellSelect', this.updateSelected);
@@ -124,6 +125,21 @@ export default class Dashboard extends Component{
 					</div>
 					<div className={(this.props.view === "team") ? "team-view team-view-show" : "team-view"}>
 						<div>
+							<div className="clock-thing"></div>
+							<div className="biz-times">
+								{
+									this.state.hours.map((hour, i) => {
+										return (
+											<div 
+												style={{height: (100 /this.state.hours.length) + "%"}}
+												key={(hour >= 12) ? (hour - 12 === 0) ? hour + "pm" : (hour - 12) + "pm": hour + "am"} 
+												className="time">
+												<div>{(hour >= 12) ? (hour - 12 === 0) ? hour + "pm" : (hour - 12) + "pm": hour + "am"} </div>
+											</div>
+										);
+									})
+								}
+							</div>
 							<div 
 								id="carousel" 
 								className="team-days">
