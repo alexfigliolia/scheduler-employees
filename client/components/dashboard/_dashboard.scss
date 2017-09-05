@@ -258,6 +258,9 @@
 								&>p {
 									transform: rotate(90deg);
 									font-size: 0.9em;
+									@media #{$mq-957} {
+										transform: rotate(0deg);
+									}
 								}
 								&>p:first-of-type {
 									margin-top: 20px;
