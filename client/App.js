@@ -7,6 +7,7 @@ export default class App extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
+      user: null,
 			height: null,
 			loggedIn: false,
 			loginClasses: "login",
@@ -162,7 +163,8 @@ export default class App extends Component {
             currentSkedge={this.state.currentSkedgeIndex}
             startDay={this.state.startDay}
             endDay={this.state.endDay}
-            view={this.state.view} />
+            view={this.state.view}
+            user={this.state.user} />
         }
 
 			</div>

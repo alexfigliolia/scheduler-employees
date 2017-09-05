@@ -98,7 +98,7 @@ export default class Dashboard extends Component{
 												<div key={i}>
 													{
 														weekday.map((shift, j) => {
-															if(shift.employee === "Alex"){
+															if(this.props.user.name.includes(shift.employee)){
 																return(
 																	<div 
 																		className={this.state.shiftClasses}
@@ -147,7 +147,6 @@ export default class Dashboard extends Component{
 									this.props.schedule.schedule !== undefined &&
 									this.props.schedule.schedule.map((day, i) => {
 										if(i > 0) {
-											console.log(day);
 											return(
 												<div
 													className="team-day" 
