@@ -25,15 +25,13 @@ export default class Dashboard extends Component{
     }
     this.flkty = new Flickity(carousel, options);
     this.flkty.on('cellSelect', this.updateSelected);
-    console.log(this.flkty);
 	}
 
 	componentWillReceiveProps(nextProps){
 		if(nextProps.schedule !== this.state.schedule){
 			this.createHours(this.props.startDay, this.props.endDay);
 			this.setState({
-				schedule: nextProps.schedule,
-				shiftClasses: "shift shift-show"
+				schedule: nextProps.schedule
 			});
 		}
 	}
@@ -54,7 +52,8 @@ export default class Dashboard extends Component{
 			hours.push(i);
 		}
 		this.setState({
-			hours: hours
+			hours: hours,
+			shiftClasses: "shift shift-show"
 		});
 	}
 
@@ -66,11 +65,17 @@ export default class Dashboard extends Component{
 				<div>
 					<div className="dates">
 						<div>
-							<button 
+							<button
+								style={{
+									opacity: this.props.currentSkedge === 0 ? 0.5 : 1
+								}} 
 								onClick={this.props.navigate}
 								data-dir="prev"></button>
 							{(!forDate) ? "Date unavailable" : "Monday " + this.months[forDate.getMonth()] + " " + forDate.getDate() + " - " + this.months[new Date(forDate.getTime() + 6 * 24 * 60 * 60 * 1000).getMonth()] + " " + new Date(forDate.getTime() + 6 * 24 * 60 * 60 * 1000).getDate()}
-							<button 
+							<button
+								style={{
+									opacity: (this.props.currentSkedge === this.props.length - 1) ? 0.5 : 1
+								}}  
 								onClick={this.props.navigate}
 								data-dir="next"></button>
 						</div>
@@ -107,7 +112,7 @@ export default class Dashboard extends Component{
 																		  left: this.calcDif(this.props.startDay, parseInt(shift.times.on.substring( 0, shift.times.on.length-2 ))) * (100 / this.state.hours.length) + "%",
 																			width: this.calcDif(parseInt(shift.times.on.substring( 0, shift.times.on.length-2 )), parseInt(shift.times.off.substring( 0, shift.times.on.length-2 ))) * (100 / this.state.hours.length) + "%",
 																			background: shift.color,
-																			transition: "transform 0.3s " + (0.5 + i/10) + "s, boxShadow 0.3s " + (0.8 + i/10) + "s"
+																			transition: "transform 0.3s " + (1 + i/10) + "s, boxShadow 0.3s " + (1.3 + i/10) + "s"
 																		}}>
 																			<p>{shift.times.on + " - " + shift.times.off}</p>
 																	</div>

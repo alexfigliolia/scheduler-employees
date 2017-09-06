@@ -19,6 +19,7 @@ export default class App extends Component {
       length: 0,
       view: "individual"
 		}
+    this.loader = document.getElementById('appLoader');
 	}
 
 	componentDidMount(){
@@ -39,11 +40,22 @@ export default class App extends Component {
     if(this.props !== nextProps){
       console.log(nextProps);
       if(nextProps.user === null || nextProps.user === undefined) {
+        if(this.loader !== null) {
+          this.loader.remove();
+        }
         this.setState({
           loggedIn: false
         });
       } else {
         this.consumeDB(nextProps);
+        if(this.loader !== null) {
+          setTimeout(function(){
+            this.loader.classList.add('app-loader-hidden');
+          }.bind(this), 2000);
+          setTimeout(function(){
+            this.loader.remove();
+          }.bind(this), 2600);
+        }
       }
     }
   }
@@ -112,19 +124,6 @@ export default class App extends Component {
     });
   }
 
-  navigate(e){
-    var dir = e.target.dataset.dir;
-    if(dir === "prev") {
-      this.setState({
-        currentSkedgeIndex: (this.state.currentSkedgeIndex - 1 <= 0) ? 0 : this.state.currentSkedgeIndex - 1
-      });
-    } else {
-      this.setState({
-        currentSkedgeIndex: (this.state.currentSkedgeIndex + 1 >= this.state.length) ? this.state.length - 1 : this.state.currentSkedgeIndex + 1
-      });
-    }
-  }
-
   setView(e){
     var view = (e.target.tagName === "BUTTON") ? 
                 e.target.dataset.view : 
@@ -134,6 +133,19 @@ export default class App extends Component {
     this.setState({
       view: view
     });
+  }
+
+  navigate(e){
+    var dir = e.target.dataset.dir;
+    if(dir === "prev"){
+      this.setState({
+        currentSkedgeIndex: (this.state.currentSkedgeIndex - 1 <= 0) ? 0 : this.state.currentSkedgeIndex - 1
+      });
+    } else {
+      this.setState({
+        currentSkedgeIndex: (this.state.currentSkedgeIndex + 1 >= this.state.length) ? this.state.length - 1 : this.state.currentSkedgeIndex + 1
+      });
+    }
   }
 
 	render(){
@@ -161,10 +173,12 @@ export default class App extends Component {
           <Dashboard 
             schedule={this.state.schedules[this.state.currentSkedgeIndex]}
             currentSkedge={this.state.currentSkedgeIndex}
+            length={this.state.length}
             startDay={this.state.startDay}
             endDay={this.state.endDay}
             view={this.state.view}
-            user={this.state.user} />
+            user={this.state.user}
+            navigate={this.navigate.bind(this)} />
         }
 
 			</div>

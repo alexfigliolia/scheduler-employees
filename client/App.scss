@@ -1,5 +1,6 @@
 @import 'components/variables';
 @import 'components/reset';
+@import 'components/loader';
 @import 'components/flickity';
 
 html,
@@ -32,29 +33,6 @@ body{
 	@media #{$mq-1350} {
 		perspective: 1000px;
 	}
-	// &::after {
-	// 	content: "";
-	// 	height: 100%;
-	// 	width: 100%;
-	// 	position: absolute;
-	// 	top: 0;
-	// 	left: 0;
-	// 	transition-duration: 0.3s;
-	// 	background: rgba(#000, 0.15);
-	// 	z-index: -1;
-	// 	// @media #{$mq-800} {
-	// 	// 	width: 240%;
-	// 	// }
-	// 	// @media #{$mq-957}{
-	// 	// 	width: 180%;
-	// 	// }
-	// 	// @media #{$mq-1150} {
-	// 	// 	width: 150%;
-	// 	// }
-	// 	// @media #{$mq-1350} {
-	// 	// 	width: 100%;
-	// 	// }
-	// }
 }
 
 @import 'components/login/login';
