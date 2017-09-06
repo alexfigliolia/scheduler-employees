@@ -12,13 +12,6 @@ body,
 	position: relative;
 }
 
-body{
-	// transform-style: preserve-3d; 
-	@media #{$mq-1150}{
-		perspective: 1000px;
-	}
-}
-
 .App {
 	@include center;
 	background: url('blur.jpg') no-repeat center;
@@ -26,13 +19,7 @@ body{
 	position: relative;
 	height: 100%;
 	width: 100%;
-	overflow-y: hidden;
-	-webkit-overflow-scrolling: touch;
-	// transform-style: preserve-3d;
-	// perspective: 1000px;
-	@media #{$mq-1350} {
-		perspective: 1000px;
-	}
+	overflow: hidden;
 }
 
 @import 'components/login/login';

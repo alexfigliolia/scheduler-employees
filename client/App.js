@@ -39,7 +39,7 @@ export default class App extends Component {
   componentWillReceiveProps(nextProps) {
     if(this.props !== nextProps){
       console.log(nextProps);
-      if(nextProps.user === null || nextProps.user === undefined) {
+      if(nextProps.user === null) {
         if(this.loader !== null) {
           this.loader.remove();
         }
@@ -47,16 +47,30 @@ export default class App extends Component {
           loggedIn: false
         });
       } else {
-        this.consumeDB(nextProps);
-        if(this.loader !== null) {
-          setTimeout(function(){
-            this.loader.classList.add('app-loader-hidden');
-          }.bind(this), 2000);
-          setTimeout(function(){
+        if(Meteor.user().roll === "employer") {
+          this.setState({
+            loginErrors: "This app is for your employees! Please sign into the manager's app.",
+            loginClasses: "login",
+            loggedIn: false
+          });
+          if(this.loader !== null) {
             this.loader.remove();
-          }.bind(this), 2600);
+          }
+        } else {
+          this.consumeDB(nextProps);
         }
       }
+    }
+  }
+
+  hideLoader(){
+    if(this.loader !== null) {
+      setTimeout(function(){
+        this.loader.classList.add('app-loader-hidden');
+      }.bind(this), 2000);
+      setTimeout(function(){
+        this.loader.remove();
+      }.bind(this), 2600);
     }
   }
 
@@ -70,7 +84,7 @@ export default class App extends Component {
     setTimeout(function(){
       this.setState({
         loggedIn: true,
-      });
+      }, this.hideLoader());
     }.bind(this), 1800);
   }
 
@@ -87,17 +101,25 @@ export default class App extends Component {
           loginClasses: "login"
         });
       } else {
-        setTimeout(function(){
+        if(Meteor.user().roll !== "employee") {
           this.setState({
-            loginErrors: "",
-            loginClasses: "login login-loading login-remove"
+            loginErrors: "This app is for your employees! Please sign into the manager's app.",
+            loginClasses: "login",
+            loggedIn: false
           });
-        }.bind(this), 500);
-        setTimeout(function(){
-          this.setState({
-            loggedIn: true
-          });
-        }.bind(this), 1800);
+        } else {
+          setTimeout(function(){
+            this.setState({
+              loginErrors: "",
+              loginClasses: "login login-loading login-remove"
+            });
+          }.bind(this), 500);
+          setTimeout(function(){
+            this.setState({
+              loggedIn: true
+            });
+          }.bind(this), 1800);
+        }
       }
     });
   }
@@ -171,7 +193,7 @@ export default class App extends Component {
         {
           this.state.loggedIn &&
           <Dashboard 
-            schedule={this.state.schedules[this.state.currentSkedgeIndex]}
+            schedule={this.props.schedules[this.state.currentSkedgeIndex]}
             currentSkedge={this.state.currentSkedgeIndex}
             length={this.state.length}
             startDay={this.state.startDay}

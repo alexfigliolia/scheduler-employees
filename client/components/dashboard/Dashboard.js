@@ -58,7 +58,7 @@ export default class Dashboard extends Component{
 	}
 
 	render(){
-		const forDate = (this.state.schedule.schedule !== undefined) ? new Date(this.state.schedule.schedule[0].for) : false;
+		const forDate = (this.props.schedule !== undefined) ? new Date(this.props.schedule.schedule[0].for) : false;
 		const mondays = this.state.mondays;
 		return(
 			<div className="dashboard">
@@ -149,7 +149,7 @@ export default class Dashboard extends Component{
 								id="carousel" 
 								className="team-days">
 								{
-									this.props.schedule.schedule !== undefined &&
+									this.props.schedule !== undefined &&
 									this.props.schedule.schedule.map((day, i) => {
 										if(i > 0) {
 											return(
