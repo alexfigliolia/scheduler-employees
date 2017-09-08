@@ -96,6 +96,7 @@ export default class Dashboard extends Component{
 							</div>
 							<div className='individual-shifts'>
 								{
+									this.state.schedule !== undefined &&
 									this.state.schedule.schedule !== undefined &&
 									this.state.schedule.schedule.map((weekday, i) => {
 										if(i > 0) {
@@ -112,7 +113,7 @@ export default class Dashboard extends Component{
 																		  left: this.calcDif(this.props.startDay, parseInt(shift.times.on.substring( 0, shift.times.on.length-2 ))) * (100 / this.state.hours.length) + "%",
 																			width: this.calcDif(parseInt(shift.times.on.substring( 0, shift.times.on.length-2 )), parseInt(shift.times.off.substring( 0, shift.times.on.length-2 ))) * (100 / this.state.hours.length) + "%",
 																			background: shift.color,
-																			transition: "transform 0.3s " + (1 + i/10) + "s, boxShadow 0.3s " + (1.3 + i/10) + "s"
+																			transition: "transform 0.3s " + (1 + i/10) + "s, boxShadow 0.3s " + (1.3 + i/10) + "s, left 0.3s 0s, width 0.3s 0s"
 																		}}>
 																			<p>{shift.times.on + " - " + shift.times.off}</p>
 																	</div>
@@ -171,7 +172,8 @@ export default class Dashboard extends Component{
 																			top: this.calcDif(this.props.startDay, parseInt(shift.times.on.substring( 0, shift.times.on.length-2 ))) * (100 / this.state.hours.length) + "%",
 																			height: this.calcDif(parseInt(shift.times.on.substring( 0, shift.times.on.length-2 )), parseInt(shift.times.off.substring( 0, shift.times.on.length-2 ))) * (100 / this.state.hours.length) + "%",
 																			width: 80 / day.length + "%",
-																			left: ((80 / day.length) * j) + 10 + "%"
+																			left: ((80 / day.length) * j) + 10 + "%",
+																			transition: "transform 0.5s 0." + j + "s, top 0.3s 0s, height 0.3s 0s"
 																		}}>
 																		<p>{shift.times.on}</p>
 																		<p>{shift.employee}</p>

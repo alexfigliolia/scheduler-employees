@@ -63,6 +63,20 @@ export default class App extends Component {
     }
   }
 
+  consumeDB(path){
+    this.setState({
+      schedules: path.schedules,
+      currentSkedgeIndex: (path.schedules.length !== this.state.schedules) ? (path.schedules.length - 1 < 0) ? 0 : path.schedules.length - 1 : this.state.schedules.length - 1,
+      length: path.schedules.length,
+      user: path.user
+    });
+    setTimeout(function(){
+      this.setState({
+        loggedIn: true,
+      }, this.hideLoader());
+    }.bind(this), 1800);
+  }
+
   hideLoader(){
     if(this.loader !== null) {
       setTimeout(function(){
@@ -72,20 +86,6 @@ export default class App extends Component {
         this.loader.remove();
       }.bind(this), 2600);
     }
-  }
-
-  consumeDB(path){
-    this.setState({
-      schedules: path.schedules,
-      currentSkedgeIndex: (path.schedules.length !== this.state.schedules) ? path.schedules.length - 1 : this.state.schedules.length - 1,
-      length: path.schedules.length,
-      user: path.user
-    });
-    setTimeout(function(){
-      this.setState({
-        loggedIn: true,
-      }, this.hideLoader());
-    }.bind(this), 1800);
   }
 
 	login(e, p) {
@@ -165,7 +165,7 @@ export default class App extends Component {
       });
     } else {
       this.setState({
-        currentSkedgeIndex: (this.state.currentSkedgeIndex + 1 >= this.state.length) ? this.state.length - 1 : this.state.currentSkedgeIndex + 1
+        currentSkedgeIndex: (this.state.currentSkedgeIndex + 1 >= this.state.length) ? (this.state.length - 1 < 0) ? 0 : this.state.length - 1 : this.state.currentSkedgeIndex + 1
       });
     }
   }

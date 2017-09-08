@@ -168,7 +168,14 @@ export default class Login extends Component{
 								</div>
 							: ""
 						}
-						<button onClick={(!this.state.newUser && !this.state.receivedInfo) ? this.signIn.bind(this) : (this.state.newUser && !this.state.receivedInfo) ? this.aquireInfo.bind(this) : this.signUp.bind(this)}>Login</button>
+						<button 
+							onClick={(!this.state.newUser && !this.state.receivedInfo) ? 
+												this.signIn.bind(this) : 
+												(this.state.newUser && !this.state.receivedInfo) ? 
+												this.aquireInfo.bind(this) : this.signUp.bind(this)}>
+								Login
+								<img src="check.svg" alt="logging in" />
+						</button>
 						{
 							!this.state.newUser &&
 							<h2>Are you a new user? <a onClick={this.isNewUser.bind(this)}>Sign up</a></h2>
