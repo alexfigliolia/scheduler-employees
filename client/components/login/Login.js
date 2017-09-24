@@ -11,24 +11,25 @@ export default class Login extends Component{
 		this.info = [];
 	}
 
-	focus(e) {
+	focus = (e) => {
 		e.target.parentNode.classList.add('focused');
 	}
 
-	blur(e) {
+	blur = (e) => {
 		if(e.target.value === "") {
 			e.target.parentNode.classList.remove('focused');
 		}
 	}
 
-	isNewUser(){
+	isNewUser = () => {
 		this.setState({
 			newUser: !this.state.newUser
 		});
 	}
 
-	signIn(){
-		var name, email, password, ereg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	signIn = () => {
+		let name, email, password;
+		const ereg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 		if(this.refs.email.value !== "" && 
 			 ereg.test(this.refs.email.value) && 
 			 this.refs.password !== "") 
@@ -46,8 +47,9 @@ export default class Login extends Component{
 		}
 	}
 
-	aquireInfo(){
-		var name, email, password, ereg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	aquireInfo = () => {
+		let name, email, password;
+		const ereg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 		if(this.refs.name.value !== "" && 
 			 this.refs.email.value !== "" && 
 			 ereg.test(this.refs.email.value) && 
@@ -69,8 +71,9 @@ export default class Login extends Component{
 		}
 	}
 
-	signUp(){
-		var name, managerName, email, password, ereg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	signUp = () => {
+		let name, managerName, email, password;
+		const ereg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 		if(this.refs.managerName.value !== "") {
 			name = this.info[0];
 			email = this.info[1];
@@ -120,8 +123,8 @@ export default class Login extends Component{
 							(this.state.newUser && !this.state.receivedInfo)?
 							<div>
 								<input 
-									onBlur={this.blur.bind(this)}
-									onFocus={this.focus.bind(this)} 
+									onBlur={this.blur}
+									onFocus={this.focus} 
 									type="text" 
 									id="name"
 									ref="name" />
@@ -133,8 +136,8 @@ export default class Login extends Component{
 							(this.state.newUser && this.state.receivedInfo)?
 							<div>
 								<input 
-									onBlur={this.blur.bind(this)}
-									onFocus={this.focus.bind(this)} 
+									onBlur={this.blur}
+									onFocus={this.focus} 
 									type="text" 
 									id="managerName"
 									ref="managerName" />
@@ -146,8 +149,8 @@ export default class Login extends Component{
 							(!this.state.receivedInfo)?
 							<div>
 								<input 
-									onBlur={this.blur.bind(this)}
-									onFocus={this.focus.bind(this)} 
+									onBlur={this.blur}
+									onFocus={this.focus} 
 									type="email" 
 									id="username"
 									ref="email" />
@@ -159,8 +162,8 @@ export default class Login extends Component{
 							(!this.state.receivedInfo)?
 								<div>
 									<input 
-										onBlur={this.blur.bind(this)}
-										onFocus={this.focus.bind(this)} 
+										onBlur={this.blur}
+										onFocus={this.focus} 
 										type="password" 
 										id="password"
 										ref="password" />
@@ -170,21 +173,21 @@ export default class Login extends Component{
 						}
 						<button 
 							onClick={(!this.state.newUser && !this.state.receivedInfo) ? 
-												this.signIn.bind(this) : 
+												this.signIn : 
 												(this.state.newUser && !this.state.receivedInfo) ? 
-												this.aquireInfo.bind(this) : this.signUp.bind(this)}>
+												this.aquireInfo : this.signUp}>
 								Login
 								<img src="check.svg" alt="logging in" />
 						</button>
 						{
 							!this.state.newUser &&
-							<h2>Are you a new user? <a onClick={this.isNewUser.bind(this)}>Sign up</a></h2>
+							<h2>Are you a new user? <a onClick={this.isNewUser}>Sign up</a></h2>
 						}
 						{
 							this.state.newUser &&
 							<h2>Already have an accout? <a 
 																						data-login="true"
-																						onClick={this.isNewUser.bind(this)}>Login</a></h2>
+																						onClick={this.isNewUser}>Login</a></h2>
 						}
 					</div>
 				</div>

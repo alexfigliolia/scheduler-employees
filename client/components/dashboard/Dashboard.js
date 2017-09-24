@@ -15,14 +15,14 @@ export default class Dashboard extends Component{
 
 	componentDidMount(){
 		const carousel = document.getElementById('carousel');
-    const options = {
-        cellSelector: '.team-day',
-        contain: true,
-        initialIndex: 0,
-        setGallerySize: false,
-        cellAlign: "center",
-        pageDots: false
-    }
+    		  options = {
+		        cellSelector: '.team-day',
+		        contain: true,
+		        initialIndex: 0,
+		        setGallerySize: false,
+		        cellAlign: "center",
+		        pageDots: false
+		    };
     this.flkty = new Flickity(carousel, options);
     this.flkty.on('cellSelect', this.updateSelected);
 	}
@@ -37,18 +37,18 @@ export default class Dashboard extends Component{
 	}
 
 	calcDif(start, end){
-		var hours = []
-		var stop = end + 13;
-		for(var i = start; i<stop; i++) {
+		let hours = [],
+			stop = end + 13;
+		for(let i = start; i<stop; i++) {
 			hours.push(i);
 		}
 		return (hours[hours.length - 1] - hours[0] >= 12) ? (hours[hours.length - 1] - hours[0]) - 12 : hours[hours.length - 1] - hours[0] ;
 	}
 
 	createHours(start, end){
-		var hours = []
-		var stop = end + 12;
-		for(var i = start; i<stop; i++) {
+		let hours = [],
+				stop = end + 12;
+		for(let i = start; i<stop; i++) {
 			hours.push(i);
 		}
 		this.setState({
@@ -113,7 +113,7 @@ export default class Dashboard extends Component{
 																		  left: this.calcDif(this.props.startDay, parseInt(shift.times.on.substring( 0, shift.times.on.length-2 ))) * (100 / this.state.hours.length) + "%",
 																			width: this.calcDif(parseInt(shift.times.on.substring( 0, shift.times.on.length-2 )), parseInt(shift.times.off.substring( 0, shift.times.on.length-2 ))) * (100 / this.state.hours.length) + "%",
 																			background: shift.color,
-																			transition: "transform 0.3s " + (1 + i/10) + "s, boxShadow 0.3s " + (1.3 + i/10) + "s, left 0.3s 0s, width 0.3s 0s"
+																			transition: "transform 0.3s " + (1 + i/10) + "s, box-shadow 0.3s " + (1.3 + i/10) + "s, left 0.3s 0s, width 0.3s 0s"
 																		}}>
 																			<p>{shift.times.on + " - " + shift.times.off}</p>
 																	</div>

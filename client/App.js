@@ -23,14 +23,13 @@ export default class App extends Component {
 	}
 
 	componentDidMount(){
-		var self = this,
-				h = window.innerHeight;
-		self.setState({
+		var h = window.innerHeight;
+		this.setState({
 			height: h
 		});
-		window.addEventListener('resize', function(){
+		window.addEventListener('resize', () => {
 			var h = window.innerHeight;
-			self.setState({
+			this.setState({
 				height: h
 			});
 		});
@@ -63,34 +62,34 @@ export default class App extends Component {
     }
   }
 
-  consumeDB(path){
+  consumeDB(path) {
     this.setState({
       schedules: path.schedules,
       currentSkedgeIndex: (path.schedules.length !== this.state.schedules) ? (path.schedules.length - 1 < 0) ? 0 : path.schedules.length - 1 : this.state.schedules.length - 1,
       length: path.schedules.length,
       user: path.user
     });
-    setTimeout(function(){
+    setTimeout(() => {
       this.setState({
         loggedIn: true,
       }, this.hideLoader());
-    }.bind(this), 1800);
+    }, 1800);
   }
 
   hideLoader(){
     if(this.loader !== null) {
-      setTimeout(function(){
+      setTimeout(() => {
         this.loader.classList.add('app-loader-hidden');
-      }.bind(this), 2000);
-      setTimeout(function(){
+      }, 2000);
+      setTimeout(() => {
         this.loader.remove();
-      }.bind(this), 2600);
+      }, 2600);
     }
   }
 
-	login(e, p) {
-    e = e.toLowerCase();
-    Meteor.loginWithPassword(e, p, (err) => {
+	login = (e, p) => {
+    const email = e.toLowerCase();
+    Meteor.loginWithPassword(email, p, (err) => {
       this.setState({
         loginClasses: "login login-loading"
       });
@@ -108,23 +107,23 @@ export default class App extends Component {
             loggedIn: false
           });
         } else {
-          setTimeout(function(){
+          setTimeout(() => {
             this.setState({
               loginErrors: "",
               loginClasses: "login login-loading login-remove"
             });
-          }.bind(this), 500);
-          setTimeout(function(){
+          }, 500);
+          setTimeout(() => {
             this.setState({
               loggedIn: true
             });
-          }.bind(this), 1800);
+          }, 1800);
         }
       }
     });
   }
 
-  signUp(n, e, p, m) {
+  signUp = (n, e, p, m) => {
     Accounts.createUser({name: n, email: e.toLowerCase(), password: p, managerName: m}, (err) => {
       this.setState({
         loginClasses: "login login-loading"
@@ -146,8 +145,8 @@ export default class App extends Component {
     });
   }
 
-  setView(e){
-    var view = (e.target.tagName === "BUTTON") ? 
+  setView = (e) => {
+    let view = (e.target.tagName === "BUTTON") ? 
                 e.target.dataset.view : 
                 (e.target.tagName === "path") ? 
                 e.target.parentNode.parentNode.dataset.view : 
@@ -157,8 +156,8 @@ export default class App extends Component {
     });
   }
 
-  navigate(e){
-    var dir = e.target.dataset.dir;
+  navigate = (e) => {
+    const dir = e.target.dataset.dir;
     if(dir === "prev"){
       this.setState({
         currentSkedgeIndex: (this.state.currentSkedgeIndex - 1 <= 0) ? 0 : this.state.currentSkedgeIndex - 1
@@ -179,14 +178,14 @@ export default class App extends Component {
           <Login 
             classes={this.state.loginClasses}
             errors={this.state.loginErrors}
-            login={this.login.bind(this)}
-            signUp={this.signUp.bind(this)} />
+            login={this.login}
+            signUp={this.signUp} />
         }
 
         {
         	this.state.loggedIn &&
         	<Header 
-            setView={this.setView.bind(this)}
+            setView={this.setView}
             view={this.state.view} />
         }
 
@@ -200,7 +199,7 @@ export default class App extends Component {
             endDay={this.state.endDay}
             view={this.state.view}
             user={this.state.user}
-            navigate={this.navigate.bind(this)} />
+            navigate={this.navigate} />
         }
 
 			</div>
