@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Login from './components/login/Login';
 import Header from './components/header/Header';
 import Dashboard from './components/dashboard/Dashboard';
+import Settings from './components/settings/Settings';
 
 export default class App extends Component {
 	constructor(props){
@@ -11,6 +12,8 @@ export default class App extends Component {
 			height: null,
 			loggedIn: false,
 			loginClasses: "login",
+      settingsClasses: "settings",
+      gearClasses: "gear",
 			loginErrors: "",
       schedules: [],
       currentSkedgeIndex: 0,
@@ -62,7 +65,7 @@ export default class App extends Component {
     }
   }
 
-  consumeDB(path) {
+  consumeDB = (path) => {
     this.setState({
       schedules: path.schedules,
       currentSkedgeIndex: (path.schedules.length !== this.state.schedules) ? (path.schedules.length - 1 < 0) ? 0 : path.schedules.length - 1 : this.state.schedules.length - 1,
@@ -73,7 +76,7 @@ export default class App extends Component {
       this.setState({
         loggedIn: true,
       }, this.hideLoader());
-    }, 1800);
+    }, 1000);
   }
 
   hideLoader(){
@@ -145,6 +148,11 @@ export default class App extends Component {
     });
   }
 
+  logout = () => {
+    Meteor.logout();
+    this.revealSettings();
+  }
+
   setView = (e) => {
     let view = (e.target.tagName === "BUTTON") ? 
                 e.target.dataset.view : 
@@ -169,6 +177,17 @@ export default class App extends Component {
     }
   }
 
+  revealSettings = () => {
+    this.setState((prevState, props) => {
+      return {
+        settingsClasses: (prevState.settingsClasses === "settings" ? 
+                          "settings settings-show" : "settings"),
+        gearClasses: (prevState.gearClasses === "gear") ?
+                      "gear gear-hide" : "gear"
+      };
+    });
+  }
+
 	render(){
 		return(
 			<div className="App" style={{height: this.state.height}}>
@@ -186,7 +205,9 @@ export default class App extends Component {
         	this.state.loggedIn &&
         	<Header 
             setView={this.setView}
-            view={this.state.view} />
+            view={this.state.view}
+            revealSettings={this.revealSettings}
+            classes={this.state.gearClasses} />
         }
 
         {
@@ -200,6 +221,13 @@ export default class App extends Component {
             view={this.state.view}
             user={this.state.user}
             navigate={this.navigate} />
+        }
+
+        {
+          this.state.loggedIn &&
+          <Settings 
+            classes={this.state.settingsClasses}
+            logout={this.logout} />
         }
 
 			</div>

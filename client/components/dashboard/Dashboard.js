@@ -30,9 +30,6 @@ export default class Dashboard extends Component{
 	componentWillReceiveProps(nextProps){
 		if(nextProps.schedule !== this.state.schedule){
 			this.createHours(this.props.startDay, this.props.endDay);
-			this.setState({
-				schedule: nextProps.schedule
-			});
 		}
 	}
 
@@ -96,9 +93,7 @@ export default class Dashboard extends Component{
 							</div>
 							<div className='individual-shifts'>
 								{
-									this.state.schedule !== undefined &&
-									this.state.schedule.schedule !== undefined &&
-									this.state.schedule.schedule.map((weekday, i) => {
+									this.props.schedule.schedule.map((weekday, i) => {
 										if(i > 0) {
 											return(
 												<div key={i}>
@@ -113,7 +108,7 @@ export default class Dashboard extends Component{
 																		  left: this.calcDif(this.props.startDay, parseInt(shift.times.on.substring( 0, shift.times.on.length-2 ))) * (100 / this.state.hours.length) + "%",
 																			width: this.calcDif(parseInt(shift.times.on.substring( 0, shift.times.on.length-2 )), parseInt(shift.times.off.substring( 0, shift.times.on.length-2 ))) * (100 / this.state.hours.length) + "%",
 																			background: shift.color,
-																			transition: "transform 0.3s " + (1 + i/10) + "s, box-shadow 0.3s " + (1.3 + i/10) + "s, left 0.3s 0s, width 0.3s 0s"
+																			transition: "transform 0.3s " + (0.5 + i/10) + "s, box-shadow 0.3s " + (0.8 + i/10) + "s, left 0.3s 0s, width 0.3s 0s"
 																		}}>
 																			<p>{shift.times.on + " - " + shift.times.off}</p>
 																	</div>

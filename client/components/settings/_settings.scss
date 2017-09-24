@@ -1,0 +1,43 @@
+.settings {
+	position: absolute;
+	bottom: 50px;
+	left: 0;
+	z-index: 100;
+	@include center;
+	background: #fff;
+	height: auto;
+	width: 130px;
+	@include headerShadow;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+	transform: translateX(-100%);
+	transition-duration: 0.3s;
+	visibility: hidden;
+	transition-timing-function: cubic-bezier(0.6, -0.28, 0.735, 0.045);
+	@media #{$mq-670} {
+		top: 50px;
+		bottom: initial;
+	}
+	&>div {
+		@include center;
+		height: 100%;
+		width: 100%;
+		&>button {
+			height: 40px;
+			width: 100%;
+			color: #fff;
+			background: #DD555F;
+			border: none;
+			outline: none;
+			text-transform: uppercase;
+			border-top-right-radius: 5px;
+			border-bottom-right-radius: 5px;
+		}
+	}
+}
+
+.settings-show{
+	transform: translateX(0%);
+	visibility: visible;
+	transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
