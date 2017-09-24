@@ -42,9 +42,7 @@ export default class App extends Component {
     if(this.props !== nextProps){
       console.log(nextProps);
       if(nextProps.user === null) {
-        if(this.loader !== null) {
-          this.loader.remove();
-        }
+        this.hideLoader();
         this.setState({
           loggedIn: false
         });
@@ -56,7 +54,7 @@ export default class App extends Component {
             loggedIn: false
           });
           if(this.loader !== null) {
-            this.loader.remove();
+            this.hideLoader();
           }
         } else {
           this.consumeDB(nextProps);
@@ -66,27 +64,30 @@ export default class App extends Component {
   }
 
   consumeDB = (path) => {
-    this.setState({
-      schedules: path.schedules,
-      currentSkedgeIndex: (path.schedules.length !== this.state.schedules) ? (path.schedules.length - 1 < 0) ? 0 : path.schedules.length - 1 : this.state.schedules.length - 1,
-      length: path.schedules.length,
-      user: path.user
-    });
+    this.hideLoader();
     setTimeout(() => {
       this.setState({
-        loggedIn: true,
-      }, this.hideLoader());
-    }, 1000);
+        loggedIn: true
+      });
+    }, 1250);
+    setTimeout(() => {
+      this.setState({
+        schedules: path.schedules,
+        currentSkedgeIndex: (path.schedules.length !== this.state.schedules) ? (path.schedules.length - 1 < 0) ? 0 : path.schedules.length - 1 : this.state.schedules.length - 1,
+        length: path.schedules.length,
+        user: path.user
+      });
+    }, 1300);
   }
 
   hideLoader(){
     if(this.loader !== null) {
       setTimeout(() => {
         this.loader.classList.add('app-loader-hidden');
-      }, 2000);
+      }, 1000);
       setTimeout(() => {
         this.loader.remove();
-      }, 2600);
+      }, 1600);
     }
   }
 
@@ -115,12 +116,7 @@ export default class App extends Component {
               loginErrors: "",
               loginClasses: "login login-loading login-remove"
             });
-          }, 500);
-          setTimeout(() => {
-            this.setState({
-              loggedIn: true
-            });
-          }, 1800);
+          }, 250);
         }
       }
     });
@@ -151,6 +147,9 @@ export default class App extends Component {
   logout = () => {
     Meteor.logout();
     this.revealSettings();
+    this.setState({
+      loginClasses: "login"
+    });
   }
 
   setView = (e) => {
@@ -188,7 +187,7 @@ export default class App extends Component {
     });
   }
 
-	render(){
+	render = () => {
 		return(
 			<div className="App" style={{height: this.state.height}}>
 

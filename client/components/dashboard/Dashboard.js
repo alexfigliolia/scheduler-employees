@@ -54,7 +54,7 @@ export default class Dashboard extends Component{
 		});
 	}
 
-	render(){
+	render = () => {
 		const forDate = (this.props.schedule !== undefined) ? new Date(this.props.schedule.schedule[0].for) : false;
 		const mondays = this.state.mondays;
 		return(
@@ -99,7 +99,7 @@ export default class Dashboard extends Component{
 												<div key={i}>
 													{
 														weekday.map((shift, j) => {
-															if(this.props.user.name.includes(shift.employee)){
+															if(this.props.user !== null && this.props.user.name !== undefined && this.props.user.name.includes(shift.employee)){
 																return(
 																	<div 
 																		className={this.state.shiftClasses}

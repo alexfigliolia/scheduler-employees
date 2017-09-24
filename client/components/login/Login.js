@@ -93,7 +93,7 @@ export default class Login extends Component{
 
 	render(){
 		return(
-			<section className={this.props.classes}>
+			<section className={this.props.classes} id="login">
 				<div>
 					{
 						(this.state.newUser) ?
