@@ -1,5 +1,5 @@
 {
-  "name": "Skedge Employees",
+  "name": "scheduler-employees",
   "private": true,
   "scripts": {
     "start": "meteor run"
